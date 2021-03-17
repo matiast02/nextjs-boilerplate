@@ -24,7 +24,9 @@ const providers = [
       if (user.data) {
         return user
       } else {
-        return null
+        //return null
+        //redirect to login page with errors
+        throw '/signin?error=' + user.response.data.message;
       }
     },
     pages: {

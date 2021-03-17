@@ -2,8 +2,21 @@ import React from 'react'
 import { signIn } from 'next-auth/client'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { useRouter } from 'next/router'
 
 const SignIn = () => {
+
+  const router = useRouter();
+  const [loginError, setloginError] = useState(false);
+
+  useEffect(() => {
+    const error = router.query.error;
+    if (error) {
+      setloginError(true);
+    }else{
+      setloginError(false);
+    }
+  }, [router])
 
   //form validate
   const formik = useFormik({
@@ -35,6 +48,12 @@ const SignIn = () => {
         <div className="min-h-screen flex items-center justify-center">
             <form className="flex flex-col bg-gray-100 p-10 space-y-4 " onSubmit={formik.handleSubmit}>
               <h1 className="mb-5">Login</h1>
+              { loginError ? 
+                (<div className="bg-red-50 p-3 border-l-4 border-red-500">
+                  <p>Error</p>
+                  <p>{router.query.error}</p>
+                </div> )
+                : null }
               <div className="flex flex-col">
                 <label htmlFor="emial">Email</label>
                 <input 
