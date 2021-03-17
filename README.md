@@ -1,4 +1,4 @@
-## Next js boilerplate whit login
+## Next js boilerplate whit login and dashboard
 
 
 * axios - api calls
