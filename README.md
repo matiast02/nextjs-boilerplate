@@ -7,5 +7,10 @@
 * Yup - for validation
 * [] react-redux - handle app state
 
+```
+change .env.copy to .env.local
+
+npm run dev
+```
 
 https://www.npmjs.com/package/next-page-transitions
