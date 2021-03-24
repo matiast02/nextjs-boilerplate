@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Router from 'next/router'
-import { useSession, signOut, getSession } from 'next-auth/client'
+import { useSession, signOut } from 'next-auth/client'
 
 
 export const WithDashboard = ({ children }) => {
@@ -9,14 +9,14 @@ export const WithDashboard = ({ children }) => {
     const [sidebarOpen, setsidebarOpen] = useState(false);
     const [notificationOpen, setnotificationOpen] = useState(false);
 
-    const [ loading ] = useSession();
+    const [ session, loading ] = useSession();
     
     
     useEffect( async () => {
-        const session = await getSession().catch(error => console.log(error));
+        //const session = await getSession().catch(error => console.log(error));
 
+        if (!session?.accessToken) Router.push('/signin')
         if (loading) return (<h1>loading...</h1>)
-        if (!session) Router.push('/signin')
 
     }, [])
 

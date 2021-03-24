@@ -2,14 +2,20 @@ import React from 'react'
 import { signIn } from 'next-auth/client'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { useRouter } from 'next/router'
+import Router, { useRouter } from 'next/router'
 
 const SignIn = () => {
 
   const router = useRouter();
   const [loginError, setloginError] = useState(false);
-
+  const [ session ] = useSession();
+  
   useEffect(() => {
+
+    if (session?.user) {
+      Router.push('/admin/dashboard')
+    }
+
     const error = router.query.error;
     if (error) {
       setloginError(true);
