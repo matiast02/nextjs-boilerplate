@@ -13,9 +13,9 @@ export const WithDashboard = ({ children }) => {
     
     
     useEffect( async () => {
-        //const session = await getSession().catch(error => console.log(error));
+        const session = await getSession().catch(error => console.log(error));
 
-        if (!session?.accessToken) Router.push('/signin')
+       //if (!session?.accessToken) Router.push('/signin')
         if (loading) return (<h1>loading...</h1>)
 
     }, [])
