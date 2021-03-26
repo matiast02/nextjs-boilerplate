@@ -3,6 +3,7 @@ import { signIn } from 'next-auth/client'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import Router, { useRouter } from 'next/router'
+import { setItem } from '../utility/localStorageControl'
 
 const SignIn = () => {
 
@@ -44,7 +45,8 @@ const SignIn = () => {
         // successful login
         callbackUrl: `${window.location.origin}/admin/dashboard` 
       }
-    )
+      )
+      setItem('token', session?.accessToken)
     }
   });
 
