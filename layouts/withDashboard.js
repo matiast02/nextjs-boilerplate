@@ -12,14 +12,14 @@ export const WithDashboard = ({ children }) => {
     const [ session, loading ] = useSession();
     
     
-    useEffect( async () => {
-        const session = await getSession().catch(error => console.log(error));
+    if (!loading && !session) Router.push('/signin')
+    if (loading) return (<h1>loading...</h1>);
 
-       //if (!session?.accessToken) Router.push('/signin')
-        if (loading) return (<h1>loading...</h1>)
-
-    }, [])
-
+    const handleSignout = () => {        
+        signOut()
+        .then(() => Router.push('/signin'))
+        .catch( err => console.log(err))
+    }
 
     return (
     <>
@@ -189,7 +189,7 @@ export const WithDashboard = ({ children }) => {
                                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Profile</a>
                             <a href="#"
                                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Products</a>
-                            <a onClick={() => signOut()} href="#"
+                            <a onClick={() => handleSignout()} href="#"
                                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Logout</a>
                         </div>
                     </div>

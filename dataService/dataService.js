@@ -1,7 +1,14 @@
 import axios from 'axios'
-import  { getItem } from '../utility/localStorageControl'
+import { getSession } from 'next-auth/client';
+import  { getItem, setItem } from '../utility/localStorageControl'
 
 const API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
+
+//get token from session and store in localstorage
+getSession().then( user => {
+  setItem("token", user.accessToken)
+})
+.catch(err => console.log(err))
 
 const authHeader = () => ({
   Authorization: `Bearer ${getItem('token')}`,
@@ -86,10 +93,15 @@ client.interceptors.response.use(
     const { response } = error;
     const originalRequest = error.config;
     if (response) {
-      if (response.status === 500) {
-        // do something here
-      } else {
-        return originalRequest;
+      switch (response.status) {
+        case 500:
+          console.log("Error en el servidor", response);
+          break;
+        case 401:
+          //handle session expire here
+          return response;
+        default:
+          return originalRequest;
       }
     }
     return Promise.reject(error);
